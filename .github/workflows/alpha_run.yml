@@ -1,0 +1,17 @@
+name: Alpha Pipe
+on: workflow_dispatch # Adds a "Run Now" button to your repo
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install openai supabase yfinance
+      - run: python swarm/main.py
+        env:
+          ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }} # Use the Service_Role key for writing!
